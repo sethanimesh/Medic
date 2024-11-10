@@ -6,6 +6,7 @@
 <body>
     <h1>Medicine List</h1>
     <a href="{% url 'add_medicine' %}">Add New Medicine</a>
+    <a href="{% url 'live_feed' %}">Go to Live Feed</a>
     <ul>
         {% for medicine in medicines %}
             <li>
