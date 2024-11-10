@@ -10,3 +10,12 @@ class Medicine(models.Model):
 
     def __str__(self):
         return self.name
+
+class MedicineScan(models.Model):
+    image = models.ImageField(upload_to='medicine_scans/')
+    processed_image = models.ImageField(upload_to='processed_scans/', null=True, blank=True)
+    detections = models.JSONField(null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Scan {self.id} at {self.uploaded_at}"
