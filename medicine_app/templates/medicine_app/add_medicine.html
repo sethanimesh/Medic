@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Medicine</title>
-</head>
-<body>
-    <h1>Add Medicine</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Medicine</button>
-    </form>
-    <a href="{% url 'medicine_list' %}">Back to Medicine List</a>
-</body>
-</html>
+<!-- medicine_app/templates/medicine_app/add_medicine.html -->
+{% extends 'medicine_app/base.html' %}
+
+{% block title %}Add New Medicine{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 text-center">Add New Medicine</h1>
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Add Medicine</button>
+                <a href="{% url 'medicine_list' %}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Back to List</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

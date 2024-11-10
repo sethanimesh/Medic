@@ -1,23 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Medicine List</title>
-</head>
-<body>
-    <h1>Medicine List</h1>
-    <a href="{% url 'add_medicine' %}">Add New Medicine</a>
-    <a href="{% url 'live_feed' %}">Go to Live Feed</a>
-    <ul>
-        {% for medicine in medicines %}
-            <li>
-                <strong>{{ medicine.name }}</strong> -
-                {{ medicine.manufacturer }} -
-                {{ medicine.dosage }} -
-                Expires on {{ medicine.expiration_date }}
-            </li>
-        {% empty %}
-            <li>No medicines added yet.</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+<!-- medicine_app/templates/medicine_app/medicine_list.html -->
+{% extends 'medicine_app/base.html' %}
+
+{% block title %}Medicine List{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 text-center">Medicine List</h1>
+    
+    <!-- Medicine Table -->
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Manufacturer</th>
+                    <th scope="col">Dosage</th>
+                    <th scope="col">Expiration Date</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medicine in medicines %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ medicine.name }}</td>
+                        <td>{{ medicine.manufacturer }}</td>
+                        <td>{{ medicine.dosage }}</td>
+                        <td>{{ medicine.expiration_date }}</td>
+                        <td>
+                            <!-- Edit Button -->
+                            <a href="{% url 'edit_medicine' medicine.id %}" class="btn btn-sm btn-warning me-1">
+                                <i class="bi bi-pencil-square"></i> Edit
+                            </a>
+                            
+                            <!-- Delete Button -->
+                            <a href="{% url 'delete_medicine' medicine.id %}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No medicines added yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

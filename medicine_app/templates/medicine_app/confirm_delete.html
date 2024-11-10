@@ -1,0 +1,24 @@
+<!-- medicine_app/templates/medicine_app/confirm_delete.html -->
+{% extends 'medicine_app/base.html' %}
+
+{% block title %}Delete Medicine{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4 text-center">Delete Medicine</h1>
+    <div class="card">
+        <div class="card-body">
+            <p>Are you sure you want to delete the following medicine?</p>
+            <ul>
+                <li><strong>Name:</strong> {{ medicine.name }}</li>
+                <li><strong>Manufacturer:</strong> {{ medicine.manufacturer }}</li>
+                <li><strong>Dosage:</strong> {{ medicine.dosage }}</li>
+                <li><strong>Expiration Date:</strong> {{ medicine.expiration_date }}</li>
+            </ul>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger"><i class="bi bi-trash-fill"></i> Confirm Delete</button>
+                <a href="{% url 'medicine_list' %}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Cancel</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

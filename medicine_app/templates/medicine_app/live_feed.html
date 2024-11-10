@@ -1,10 +1,15 @@
-<!-- medicine_app/templates/medicine_app/live_feed.html -->
+<!-- medicine_app/templates/medicine_app/live_feed.html
 <!DOCTYPE html>
 <html>
 <head>
     <title>Live Feed Capture</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    {% extends 'medicine_app/base.html' %}
+
+    {% block title %}Live Feed Capture{% endblock %}
+    
+    {% block extra_head %}
+<style>
         /* Loader Styles */
         .three-body {
             --uib-size: 35px;
@@ -229,5 +234,4 @@
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

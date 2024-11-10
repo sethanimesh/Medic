@@ -3,11 +3,12 @@ import re
 import base64
 import json
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from medicine_app.forms import MedicineForm
 from medicine_app.models import Medicine
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part, SafetySetting
+from django.contrib import messages
 
 # Initialize Vertex AI
 vertexai.init(project="stalwart-city-431506-n8", location="us-central1")
@@ -161,3 +162,36 @@ def parse_response(response_text):
         # Log the exception if needed
         print(f"Error parsing response: {e}")
         return None
+    
+
+def edit_medicine(request, medicine_id):
+    """
+    View to edit an existing medicine entry.
+    """
+    medicine = get_object_or_404(Medicine, id=medicine_id)
+    
+    if request.method == 'POST':
+        form = MedicineForm(request.POST, instance=medicine)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Medicine updated successfully!')
+            return redirect('medicine_list')
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = MedicineForm(instance=medicine)
+    
+    return render(request, 'medicine_app/edit_medicine.html', {'form': form, 'medicine': medicine})
+
+def delete_medicine(request, medicine_id):
+    """
+    View to delete an existing medicine entry.
+    """
+    medicine = get_object_or_404(Medicine, id=medicine_id)
+    
+    if request.method == 'POST':
+        medicine.delete()
+        messages.success(request, 'Medicine deleted successfully!')
+        return redirect('medicine_list')
+    
+    return render(request, 'medicine_app/confirm_delete.html', {'medicine': medicine})
