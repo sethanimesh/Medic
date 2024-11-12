@@ -10,7 +10,6 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part, SafetySetting
 from django.contrib import messages
 
-# Initialize Vertex AI
 vertexai.init(project="stalwart-city-431506-n8", location="us-central1")
 
 def medicine_list(request):
@@ -20,7 +19,6 @@ def medicine_list(request):
 def generate(image_data):
     model = GenerativeModel("gemini-1.5-flash-002")
     
-    # Convert image data to the correct format (base64)
     image_base64 = base64.b64decode(image_data)
     image_part = Part.from_data(mime_type="image/jpeg", data=image_base64)
 
@@ -45,7 +43,6 @@ def generate(image_data):
         SafetySetting(category=SafetySetting.HarmCategory.HARM_CATEGORY_HARASSMENT, threshold=SafetySetting.HarmBlockThreshold.OFF),
     ]
     
-    # Generate content using the model
     responses = model.generate_content(
         [text1, image_part, text2],
         generation_config=generation_config,
@@ -62,18 +59,15 @@ def generate(image_data):
 def capture_medicine_image(request):
     if request.method == 'POST':
         try:
-            # Parse the incoming JSON body
             data = json.loads(request.body.decode('utf-8'))
-            image_data = data.get('image')  # Get base64 encoded image data
+            image_data = data.get('image') 
 
             if image_data:
                 response_text = generate(image_data)
                 
-                # Parse the response using regex
                 parsed_data = parse_response(response_text)
                 
                 if parsed_data:
-                    # Save the parsed data to the database
                     medicine = Medicine(
                         name=parsed_data.get('Name'),
                         manufacturer=parsed_data.get('Manufacturer'),
@@ -82,7 +76,6 @@ def capture_medicine_image(request):
                     )
                     medicine.save()
                     
-                    # Optionally, you can also create a MedicineForm instance if needed
                     # form = MedicineForm(parsed_data)
                     # if form.is_valid():
                     #     form.save()
@@ -111,12 +104,11 @@ def add_medicine(request):
         form = MedicineForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('medicine_list')  # Redirect to the medicine list after adding
+            return redirect('medicine_list')  
     else:
         form = MedicineForm()
     return render(request, 'medicine_app/add_medicine.html', {'form': form})
 
-# medicine_app/views.py
 
 def parse_response(response_text):
     """
@@ -129,25 +121,21 @@ def parse_response(response_text):
     Expiration Date: 4/2024
     """
     try:
-        # Define regex patterns for each field
         name_pattern = r"Name:\s*(.*)"
         manufacturer_pattern = r"Manufacturer:\s*(.*)"
         dosage_pattern = r"Dosage:\s*(.*)"
         expiration_pattern = r"Expiration Date:\s*(.*)"
 
-        # Use re.MULTILINE to search across multiple lines
         name_match = re.search(name_pattern, response_text, re.MULTILINE)
         manufacturer_match = re.search(manufacturer_pattern, response_text, re.MULTILINE)
         dosage_match = re.search(dosage_pattern, response_text, re.MULTILINE)
         expiration_match = re.search(expiration_pattern, response_text, re.MULTILINE)
 
-        # Extract the matched groups
-        name = name_match.group(1).strip() if name_match else None
-        manufacturer = manufacturer_match.group(1).strip() if manufacturer_match else None
-        dosage = dosage_match.group(1).strip() if dosage_match else None
-        expiration_date = expiration_match.group(1).strip() if expiration_match else None
+        name = name_match.group(1).strip().replace('*', '')  if name_match else None
+        manufacturer = manufacturer_match.group(1).strip().replace('*', '')  if manufacturer_match else None
+        dosage = dosage_match.group(1).strip().replace('*', '')  if dosage_match else None
+        expiration_date = expiration_match.group(1).strip().replace('*', '')  if expiration_match else None
 
-        # Check if all fields are extracted
         if all([name, manufacturer, dosage, expiration_date]):
             return {
                 "Name": name,
@@ -159,7 +147,6 @@ def parse_response(response_text):
             return None
 
     except Exception as e:
-        # Log the exception if needed
         print(f"Error parsing response: {e}")
         return None
     

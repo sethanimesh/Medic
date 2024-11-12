@@ -1,14 +1,10 @@
-<!-- medicine_app/templates/medicine_app/base.html -->
 <!DOCTYPE html>
 <html>
 <head>
     <title>{% block title %}Medicine Manager{% endblock %}</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        /* Custom Styles */
         body {
             padding-top: 60px;
             background-color: #f8f9fa;
@@ -20,7 +16,6 @@
     {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
         <div class="container">
             <a class="navbar-brand" href="{% url 'medicine_list' %}">Medicine Manager</a>
@@ -41,9 +36,7 @@
         </div>
     </nav>
 
-    <!-- Main Container -->
     <div class="container">
-        <!-- Display Flash Messages -->
         {% if messages %}
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -56,7 +49,6 @@
         {% block content %}{% endblock %}
     </div>
 
-    <!-- Bootstrap JS and dependencies (Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>

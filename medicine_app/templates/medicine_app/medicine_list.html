@@ -1,4 +1,3 @@
-<!-- medicine_app/templates/medicine_app/medicine_list.html -->
 {% extends 'medicine_app/base.html' %}
 
 {% block title %}Medicine List{% endblock %}
@@ -6,7 +5,6 @@
 {% block content %}
     <h1 class="mb-4 text-center">Medicine List</h1>
     
-    <!-- Medicine Table -->
     <div class="table-responsive">
         <table class="table table-striped table-bordered align-middle">
             <thead class="table-primary">
@@ -28,12 +26,10 @@
                         <td>{{ medicine.dosage }}</td>
                         <td>{{ medicine.expiration_date }}</td>
                         <td>
-                            <!-- Edit Button -->
                             <a href="{% url 'edit_medicine' medicine.id %}" class="btn btn-sm btn-warning me-1">
                                 <i class="bi bi-pencil-square"></i> Edit
                             </a>
                             
-                            <!-- Delete Button -->
                             <a href="{% url 'delete_medicine' medicine.id %}" class="btn btn-sm btn-danger">
                                 <i class="bi bi-trash-fill"></i> Delete
                             </a>
