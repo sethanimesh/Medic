@@ -102,10 +102,7 @@ medicine-manager/
 5. Open a Pull Request.
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-For questions, please reach out to the repository owner or create an issue.
+This project is licensed under the MIT License.
 
 ---
 
